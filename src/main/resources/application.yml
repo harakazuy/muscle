@@ -1,0 +1,11 @@
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://172.16.0.17:5432/takuyakurihara
+    username: postgres
+    password: postgres
