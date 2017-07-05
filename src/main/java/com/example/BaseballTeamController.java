@@ -28,5 +28,15 @@ public class BaseballTeamController {
 		model.addAttribute("team", team);
 		return "detail";
 	}
+	
+	@RequestMapping("/toRecord")
+	public String toRecord(Model model){
+		return "record";
+	}
+	
+	@RequestMapping("/toEdit")
+	public String toEdit(Model model){
+		return "edit";
+	}
 
 }

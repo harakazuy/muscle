@@ -32,7 +32,7 @@ public class BaseballTeamRepository {
 		System.out.println("xxxx");
 		String sql = "";
 		sql += "select * ";
-		sql += "from baseball_teams ";
+		sql += "from muscle ";
 		sql += "order by team_name";
 		List<Team> teamlist = template.query(sql, rowMapper);
 		return teamlist;
@@ -42,7 +42,7 @@ public class BaseballTeamRepository {
 	public Team findById(Integer id){
 		String sql = "";
 		sql += "select id, league_name, team_name, headquarters, inauguration, history ";
-		sql += "from baseball_teams ";
+		sql += "from muscle ";
 		sql += "where id = :id";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
 		Team team = template.queryForObject(sql, param, rowMapper);
