@@ -6,16 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BaseballTeamService {
+public class TrainingService {
 
 	@Autowired
-	BaseballTeamRepository repository = new BaseballTeamRepository();
-
-	public List<Team> findAll(){
+	TrainingRepository repository = new TrainingRepository();
+	
+	public List<Training> findAll(){
 		return repository.findAll();
 	}
-
-	public Team findById(Integer id){
+	
+	public Training findById(Integer id){
 		return repository.findById(id);
 	}
 }

@@ -8,6 +8,8 @@
 <title>index</title>
 </head>
 <body>
+<!-- ヘッダー作る -->
+<!-- ナビバー作る -->
 	<h1>トレーニング記録</h1>
 	<input type="button" onclick="location.href='<%= request.getContextPath() %>/toRecord'" value="履歴を見る">
 	<br>
@@ -16,10 +18,12 @@
 		<div>日時</div>
 		<input type="datetime-local">
 		<div>メニュー</div>
-		<select name="training_menu">
-			<option value="abdominal">腹筋</option>
-			<option value="spine">背筋</option>
-			<option value="push_ups">腕立て伏せ</option>
+		<select name="trainingName">
+			<c:forEach var="training" items="${trainingList}" varStatus="status">
+				<option value="${training.id}">
+					<c:out value="${training.trainingName}" />
+				</option>
+			</c:forEach>
 		</select>
 		<div>ウェイト</div>
 		<input type="text">
@@ -30,10 +34,6 @@
 		<br>
 		<input type="submit" value="記録する">
 	</form>
-<%-- 	<c:forEach var="team" items="${teamList}" varStatus="status">
-		<a href="<%= request.getContextPath() %>/toDetail?id=${team.id}">
-			<c:out value="${team.teamName}" /><br>
-		</a>
-	</c:forEach> --%>
+<!-- フッター作る -->
 </body>
 </html>
