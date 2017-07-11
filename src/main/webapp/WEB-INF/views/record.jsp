@@ -13,7 +13,7 @@
 		<table border=1>
 			<tr><th colspan=4>
 				<c:out value="${trainingRecordsDate.trainingDate}" />
-				<input type="button" onclick="location.href='<%= request.getContextPath() %>/toEdit'" value="編集">
+				<input type="button" onclick="location.href='<%= request.getContextPath() %>/toEdit?date=${trainingRecordsDate.trainingDate}'" value="編集">
 			</th></tr>
 			<tr><td>メニュー</td><td>ウェイト</td><td>回数</td><td>セット数</td></tr>
 			<c:forEach var="trainingRecord" items="${trainingRecordsDate.trainingRecords}">

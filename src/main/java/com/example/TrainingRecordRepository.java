@@ -48,4 +48,16 @@ public class TrainingRecordRepository {
 		List<Date> trainingDateList = template.query(sql, dateRowMapper);
 		return trainingDateList;
 	};
+	
+	public Integer insertTrainingRecord(Object[] formInput) {
+		String sql = "insert into " + trainingRecordsTable + " (training_date, training_id, weight, repetition, set_count) ";
+		sql += "values (:date, :trainingId, :weight, :repetition, :setCount)";
+		SqlParameterSource param = new MapSqlParameterSource()
+				.addValue("date", formInput[0])
+				.addValue("trainingId", formInput[1])
+				.addValue("weight", formInput[2])
+				.addValue("repetition", formInput[3])
+				.addValue("setCount", formInput[4]);
+		return template.update(sql, param);
+	};
 }

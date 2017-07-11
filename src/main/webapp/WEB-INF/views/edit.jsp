@@ -11,6 +11,22 @@
 	<h1>トレーニング履歴編集</h1>
 	<table border=1>
 		<tr><th colspan=5>
+			<c:out value="${date}" />
+			<input type="button" onclick="" value="レコード削除">
+		</th></tr>
+		<tr><td>メニュー</td><td>ウェイト</td><td>回数</td><td>セット数</td></tr>
+		<c:forEach var="trainingRecord" items="${trainingRecordsDate.trainingRecords}">
+			<tr>
+				<td><c:out value="${trainingRecord.trainingName}" /></td>
+				<td><c:out value="${trainingRecord.weight}" /></td>
+				<td><c:out value="${trainingRecord.repetition}" /></td>
+				<td><c:out value="${trainingRecord.setCount}" /></td>
+			</tr>
+		</c:forEach>
+	</table>
+	<br>
+	<table border=1>
+		<tr><th colspan=5>
 			2017/07/05(水)
 			<input type="button" onclick="" value="レコード削除">
 		</th></tr>

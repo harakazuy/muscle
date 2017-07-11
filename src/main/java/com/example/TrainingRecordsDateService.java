@@ -22,4 +22,8 @@ public class TrainingRecordsDateService {
 		});
 		return trainingRecordsDateList;
 	}
+	
+	public List<TrainingRecord> findByDate(Date date) {
+		return repository.findRecordsByDate(date);
+	}
 }
