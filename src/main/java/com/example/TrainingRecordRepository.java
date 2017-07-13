@@ -21,6 +21,7 @@ public class TrainingRecordRepository {
 	private static final RowMapper<TrainingRecord> rowMapper = (rs, i) -> {
 		TrainingRecord trainingRecord = new TrainingRecord();
 		trainingRecord.setId(rs.getInt("id"));
+		trainingRecord.setTrainingId(rs.getInt("training_id"));
 		trainingRecord.setTrainingName(rs.getString("training_name"));
 		trainingRecord.setWeight(rs.getBigDecimal("weight"));
 		trainingRecord.setRepetition(rs.getInt("repetition"));
@@ -29,7 +30,7 @@ public class TrainingRecordRepository {
 	};
 	
 	public List<TrainingRecord> findRecordsByDate(Date date) {
-		String sql = "select a.id, training_name, weight, repetition, set_count from ";
+		String sql = "select a.id, training_id, training_name, weight, repetition, set_count from ";
 		sql += trainingRecordsTable + " as a join " + trainingsTable + " as b ";
 		sql += "on a.training_id = b.id where training_date = :date";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("date", date);
@@ -60,4 +61,17 @@ public class TrainingRecordRepository {
 				.addValue("setCount", formInput[4]);
 		return template.update(sql, param);
 	};
+	
+	public Integer updateRecord(TrainingRecord record){
+		String sql = "update training_records set ";
+		sql += "training_id = :trainingId, weight = :weight, repetition = :repetition, set_count = :setCount ";
+		sql += "where id = :id";
+		SqlParameterSource param = new MapSqlParameterSource()
+				.addValue("trainingId", record.getTrainingId())
+				.addValue("weight", record.getWeight())
+				.addValue("repetition", record.getRepetition())
+				.addValue("setCount", record.getSetCount())
+				.addValue("id", record.getId());
+		return template.update(sql, param);
+	}
 }
