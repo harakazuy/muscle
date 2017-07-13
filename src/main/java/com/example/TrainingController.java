@@ -69,4 +69,16 @@ public class TrainingController {
 		iTrainingService.updateRecordForm(form);
 		return toRecord(model);
 	}
+	
+	@RequestMapping(value="/delete")
+	public String delete(@RequestParam("id") Integer id, Model model){
+		iTrainingService.deleteById(id);
+		return toRecord(model);
+	}
+	
+	@RequestMapping(value="/deleteByDate")
+	public String deleteByDate(@RequestParam("date") Date date, Model model){
+		iTrainingService.deleteByDate(date);
+		return toRecord(model);
+	}
 }

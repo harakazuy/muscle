@@ -1,5 +1,6 @@
 package com.example;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -53,5 +54,13 @@ public class TrainingService implements ITrainingService {
 	
 	public Integer updateRecord(TrainingRecord record){
 		return recordRepository.updateRecord(record);
+	}
+	
+	public void deleteById(Integer id) {
+		recordRepository.deleteById(id);
+	}
+	
+	public Integer deleteByDate(Date date) {
+		return recordRepository.deleteByDate(date);
 	}
 }

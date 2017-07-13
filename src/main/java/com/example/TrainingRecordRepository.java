@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class TrainingRecordRepository {
-	private String trainingRecordsTable = "training_records";
+	private String recordsTable = "training_records";
 	private String trainingsTable = "trainings";
 	
 	@Autowired
@@ -31,7 +31,7 @@ public class TrainingRecordRepository {
 	
 	public List<TrainingRecord> findRecordsByDate(Date date) {
 		String sql = "select a.id, training_id, training_name, weight, repetition, set_count from ";
-		sql += trainingRecordsTable + " as a join " + trainingsTable + " as b ";
+		sql += recordsTable + " as a join " + trainingsTable + " as b ";
 		sql += "on a.training_id = b.id where training_date = :date";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("date", date);
 		List<TrainingRecord> trainingRecords = template.query(sql, param, rowMapper);
@@ -44,14 +44,14 @@ public class TrainingRecordRepository {
 	};
 	
 	public List<Date> findTrainingDateAll() {
-		String sql = "select training_date from " + trainingRecordsTable;
+		String sql = "select training_date from " + recordsTable;
 		sql += " group by training_date order by training_date desc";
 		List<Date> trainingDateList = template.query(sql, dateRowMapper);
 		return trainingDateList;
 	};
 	
 	public Integer insertTrainingRecord(Object[] formInput) {
-		String sql = "insert into " + trainingRecordsTable + " (training_date, training_id, weight, repetition, set_count) ";
+		String sql = "insert into " + recordsTable + " (training_date, training_id, weight, repetition, set_count) ";
 		sql += "values (:date, :trainingId, :weight, :repetition, :setCount)";
 		SqlParameterSource param = new MapSqlParameterSource()
 				.addValue("date", formInput[0])
@@ -62,8 +62,8 @@ public class TrainingRecordRepository {
 		return template.update(sql, param);
 	};
 	
-	public Integer updateRecord(TrainingRecord record){
-		String sql = "update training_records set ";
+	public Integer updateRecord(TrainingRecord record) {
+		String sql = "update " + recordsTable + " set ";
 		sql += "training_id = :trainingId, weight = :weight, repetition = :repetition, set_count = :setCount ";
 		sql += "where id = :id";
 		SqlParameterSource param = new MapSqlParameterSource()
@@ -72,6 +72,18 @@ public class TrainingRecordRepository {
 				.addValue("repetition", record.getRepetition())
 				.addValue("setCount", record.getSetCount())
 				.addValue("id", record.getId());
+		return template.update(sql, param);
+	}
+	
+	public Integer deleteById(Integer id) {
+		String sql = "delete from " + recordsTable + " where id = :id";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+		return template.update(sql, param);
+	}
+	
+	public Integer deleteByDate(Date date) {
+		String sql = "delete from " + recordsTable + " where training_date = :date";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("date", date);
 		return template.update(sql, param);
 	}
 }

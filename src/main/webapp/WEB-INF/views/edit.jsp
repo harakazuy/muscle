@@ -14,7 +14,7 @@
 			<tr><th colspan=5>
 				<c:out value="${date}" />
 				<input type="hidden" name="date" value=${date}>
-				<input type="button" onclick="" value="レコード削除">
+				<input type="button" onclick="location.href='<%= request.getContextPath() %>/deleteByDate?date=${date}'" value="一括削除">
 			</th></tr>
 			<tr><td>メニュー</td><td>ウェイト</td><td>回数</td><td>セット数</td><td></td></tr>
 			<c:forEach var="trainingRecord" items="${trainingRecords}">
@@ -32,7 +32,7 @@
 					<td><input type="text" name="weight" value="${trainingRecord.weight}" />kg</td>
 					<td><input type="text" name="repetition" value="${trainingRecord.repetition}" /></td>
 					<td><input type="text" name="setCount" value="${trainingRecord.setCount}" /></td>
-					<td><input type="button" onclick="" value="削除"></td>
+					<td><input type="button" onclick="location.href='<%= request.getContextPath() %>/delete?id=${trainingRecord.id}'" value="削除"></td>
 				</tr>
 			</c:forEach>
 		</table>
