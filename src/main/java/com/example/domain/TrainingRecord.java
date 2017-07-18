@@ -1,4 +1,4 @@
-package com.example;
+package com.example.domain;
 
 import java.math.BigDecimal;
 import java.sql.Date;

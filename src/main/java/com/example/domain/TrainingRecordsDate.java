@@ -1,4 +1,4 @@
-package com.example;
+package com.example.domain;
 
 import java.sql.Date;
 import java.util.List;
@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TrainingRecordsDate {
-	private Date trainingDate;
+	private Date date;
 	private List<TrainingRecord> trainingRecords;
 }

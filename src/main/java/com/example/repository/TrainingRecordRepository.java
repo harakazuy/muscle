@@ -1,4 +1,4 @@
-package com.example;
+package com.example.repository;
 
 import java.sql.Date;
 import java.util.List;
@@ -9,6 +9,8 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
+
+import com.example.domain.TrainingRecord;
 
 @Repository
 public class TrainingRecordRepository {

@@ -1,4 +1,4 @@
-package com.example;
+package com.example.service;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -8,7 +8,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.form.TrainingRecordForm;
+import com.example.domain.Training;
+import com.example.domain.TrainingRecord;
+import com.example.repository.TrainingRecordRepository;
+import com.example.repository.TrainingRepository;
+import com.example.web.TrainingRecordForm;
 
 @Service
 public class TrainingService implements ITrainingService {

@@ -1,4 +1,4 @@
-package com.example.form;
+package com.example.web;
 
 import java.math.BigDecimal;
 import java.sql.Date;

@@ -3,6 +3,10 @@ spring:
     view:
       prefix: /WEB-INF/views/
       suffix: .jsp
+  thymeleaf:
+    mode: LEGACYHTML5
+    cache: false
+    encoding: UTF-8
 
   datasource:
     driverClassName: org.postgresql.Driver

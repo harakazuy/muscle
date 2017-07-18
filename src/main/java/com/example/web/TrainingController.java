@@ -1,4 +1,4 @@
-package com.example;
+package com.example.web;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -13,7 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.form.TrainingRecordForm;
+import com.example.domain.Training;
+import com.example.domain.TrainingRecord;
+import com.example.domain.TrainingRecordsDate;
+import com.example.service.ITrainingService;
+import com.example.service.TrainingRecordsDateService;
 
 @Controller
 @RequestMapping("")
@@ -30,18 +34,20 @@ public class TrainingController {
 		return new TrainingRecordForm();
 	}
 	
+	private String packagePath = "trainings/";
+	
 	@RequestMapping("/")
 	public String index(Model model){
 		List<Training> trainingList = iTrainingService.findAll();
 		model.addAttribute("trainingList", trainingList);
-		return "index";
+		return packagePath + "index";
 	}
 	
 	@RequestMapping("/toRecord")
 	public String toRecord(Model model){
 		List<TrainingRecordsDate> trainingRecordsDateList = trainingRecordsDateService.findAll();
 		model.addAttribute("trainingRecordsDateList", trainingRecordsDateList);
-		return "record";
+		return packagePath + "record";
 	}
 	
 	@RequestMapping("/toEdit")
@@ -51,7 +57,7 @@ public class TrainingController {
 		model.addAttribute("trainingRecords", trainingRecords);
 		List<Training> trainingList = iTrainingService.findAll();
 		model.addAttribute("trainingList", trainingList);
-		return "edit";
+		return packagePath + "edit";
 	}
 		
 	@RequestMapping(value="/insert", method=RequestMethod.POST)
