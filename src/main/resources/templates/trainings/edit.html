@@ -2,33 +2,85 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
 	<title>edit</title>
+	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-	<h1>トレーニング履歴編集</h1>
-	<form th:action="@{/update}" method="post">
-		<table border=1>
-			<tr><th colspan=5>
-				<span th:text="${date}"></span>
-				<input type="hidden" name="date" th:value="${date}">
-				<a th:href="@{/deleteByDate(date=${date})}"><input type="button" value="一括削除"></a>
-			</th></tr>
-			<tr><td>メニュー</td><td>ウェイト</td><td>回数</td><td>セット数</td><td></td></tr>
-			<tr th:each="trainingRecord : ${trainingRecords}">
-				<input type="hidden" name="id" th:value="${trainingRecord.id}">
-				<td>
-					<select name="trainingId">
-						<option th:each="training : ${trainingList}" th:text="${training.trainingName}" th:value="${training.id}" th:selected="${trainingRecord.trainingId == training.id}">
-					</select>
-				</td>
-				<td><input type="text" name="weight" th:value="${trainingRecord.weight}" />kg</td>
-				<td><input type="text" name="repetition" th:value="${trainingRecord.repetition}" /></td>
-				<td><input type="text" name="setCount" th:value="${trainingRecord.setCount}" /></td>
-				<td><a th:href="@{/delete(id=${trainingRecord.id})}"><input type="button" value="削除"></a></td>
-			</tr>
-		</table>
-		<input type="submit" value="更新">
-		<input type="button" onclick="location.href='/toRecord'" value="キャンセル">
-	</form>
+<!-- ヘッダー -->
+	<div id="header-outer"></div>
+<!-- ナビバー -->
+	<div id="navbar-outer"></div>
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<h1>トレーニング履歴編集</h1>
+				<form th:action="@{/update}" method="post">
+					<table border=1>
+						<tr><th colspan=5>
+							<span th:text="${date}"></span>
+							<input type="hidden" name="date" th:value="${date}">
+							<a th:href="@{/deleteByDate(date=${date})}"><input type="button" value="一括削除"></a>
+						</th></tr>
+						<tr><td>メニュー</td><td>ウェイト</td><td>回数<div id="repetition-error-dialog"></div></td><td>セット数<div id="setCount-error-dialog"></div></td><td></td></tr>
+						<tr th:each="trainingRecord : ${trainingRecords}">
+							<input type="hidden" name="id" th:value="${trainingRecord.id}">
+							<td>
+								<select name="trainingId">
+									<option th:each="training : ${trainingList}" th:text="${training.trainingName}" th:value="${training.id}" th:selected="${trainingRecord.trainingId == training.id}">
+								</select>
+							</td>
+							<td><input type="text" name="weight" th:value="${trainingRecord.weight}" />kg</td>
+							<td><input type="text" name="repetition" th:value="${trainingRecord.repetition}" data-validation-error-msg-container="#repetition-error-dialog" /></td>
+							<td><input type="text" name="setCount" th:value="${trainingRecord.setCount}" data-validation-error-msg-container="#setCount-error-dialog" /></td>
+							<td><a th:href="@{/delete(id=${trainingRecord.id})}"><input type="button" value="削除"></a></td>
+						</tr>
+					</table>
+					<input type="submit" value="更新">
+					<input type="button" onclick="location.href='/toRecord'" value="キャンセル">
+				</form>
+			</div>
+		</div>
+	</div>
+
+<!-- フッター -->
+	<div id="footer-outer"></div>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+    
+    <script type="text/javascript">
+		$(function(){
+			$("#header-outer").load("header #header");
+			$("#navbar-outer").load("navbar #navbar");
+			$("#footer-outer").load("footer #footer");
+		});
+		$(window).load(function () {
+			$("#record").attr("class", "active");
+		});
+		$(function(){
+			var msg_required="必須入力です。";
+			
+			$("[name='date']").attr("data-validation", "required");
+			$("[name='date']").attr("data-validation-error-msg", '日時は' + msg_required);
+
+			$("[name='repetition']").attr("data-validation", "required");
+			$("[name='repetition']").attr("data-validation-error-msg", '回数は' + msg_required);
+			
+			$("[name='setCount']").attr("data-validation", "required");
+			$("[name='setCount']").attr("data-validation-error-msg", 'セット数は' + msg_required);
+
+			$.validate({
+			    errorMessagePosition : 'top',
+			    language : {
+			    	errorTitle: 'フォームの送信に失敗しました'
+			    }
+			});
+		});
+	</script>
 </body>
 </html>

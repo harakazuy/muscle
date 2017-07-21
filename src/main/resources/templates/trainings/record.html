@@ -2,25 +2,55 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
 	<title>record</title>
+	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-	<h1>トレーニング履歴</h1>
-	<table th:each="trainingRecordsDate : ${trainingRecordsDateList}" border=1>
-		<tr><th colspan=4>
-				<span th:text="${trainingRecordsDate.date}"></span>
-				<a th:href="@{/toEdit(date=${trainingRecordsDate.date})}"><input type="button" value="編集"></a>
-		</th></tr>
-		<tr><td>メニュー</td><td>ウェイト</td><td>回数</td><td>セット数</td></tr>
-		<tr th:each="trainingRecord : ${trainingRecordsDate.trainingRecords}">
-			<td th:text="${trainingRecord.trainingName}"/>
-			<td th:text="${trainingRecord.weight}"/>
-			<td th:text="${trainingRecord.repetition}"/>
-			<td th:text="${trainingRecord.setCount}"/>
-		</tr>
-		<br>
-	</table>
-	<br>
-	<input type="button" onclick="location.href='/'" value="戻る">
+<!-- ヘッダー -->
+	<div id="header-outer"></div>
+<!-- ナビバー -->
+	<div id="navbar-outer"></div>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<h1>トレーニング履歴</h1>
+				<table th:each="trainingRecordsDate : ${trainingRecordsDateList}" border=1>
+					<tr><th colspan=4>
+							<span th:text="${trainingRecordsDate.date}"></span>
+							<a th:href="@{/toEdit(date=${trainingRecordsDate.date})}"><input type="button" value="編集"></a>
+					</th></tr>
+					<tr><td>メニュー</td><td>ウェイト</td><td>回数</td><td>セット数</td></tr>
+					<tr th:each="trainingRecord : ${trainingRecordsDate.trainingRecords}">
+						<td th:text="${trainingRecord.trainingName}"/>
+						<td th:text="${trainingRecord.weight}"/>
+						<td th:text="${trainingRecord.repetition}"/>
+						<td th:text="${trainingRecord.setCount}"/>
+					</tr>
+					<br>
+				</table>
+			</div>
+		</div>
+	</div>
+
+<!-- フッター -->
+	<div id="footer-outer"></div>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    
+    <script type="text/javascript">
+		$(function(){
+			$("#header-outer").load("header #header");
+			$("#navbar-outer").load("navbar #navbar");
+			$("#footer-outer").load("footer #footer");
+		});
+		$(window).load(function () {
+			$("#record").addClass("active");
+		});
+	</script>
 </body>
 </html>

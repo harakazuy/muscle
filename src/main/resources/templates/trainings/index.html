@@ -2,31 +2,80 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8"/>
-	<title>index</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>index</title>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<!-- ヘッダー作る -->
-<!-- ナビバー作る -->
-	<h1>トレーニング記録</h1>
-	<a href="/toRecord"><input type="button" value="履歴を見る"></a>
-	<br>
-	<br>
-	<form th:action="@{/insert}" method="post">
-		<div>日時</div>
-		<input type="date" name="date">
-		<div>メニュー</div>
-		<select name="trainingId">
-			<option th:each="training : ${trainingList}" th:value="${training.id}" th:text="${training.trainingName}"/>
-		</select>
-		<div>ウェイト</div>
-		<input type="text" name="weight">
-		<div>回数</div>
-		<input type="text" name="repetition">
-		<div>セット数</div>
-		<input type="text" name="setCount">
-		<br>
-		<input type="submit" value="記録する">
-	</form>
-<!-- フッター作る -->
+<!-- ヘッダー -->
+	<div id="header-outer"></div>
+<!-- ナビバー -->
+	<div id="navbar-outer"></div>
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<h1>トレーニング記録</h1>
+				<form th:action="@{/insert}" method="post">
+					<div>日時</div>
+					<input type="date" name="date" data-validation-error-msg-container="#date-error-dialog">
+					<div id="date-error-dialog"></div>
+					<div>メニュー</div>
+					<select name="trainingId">
+						<option th:each="training : ${trainingList}" th:value="${training.id}" th:text="${training.trainingName}"/>
+					</select>
+					<div>ウェイト</div>
+					<input type="text" name="weight">
+					<div>回数</div>
+					<input type="text" name="repetition" data-validation-error-msg-container="#repetition-error-dialog">
+					<div id="repetition-error-dialog"></div>
+					<div>セット数</div>
+					<input type="text" name="setCount" data-validation-error-msg-container="#setCount-error-dialog">
+					<div id="setCount-error-dialog"></div>
+					<br>
+					<input type="submit" value="記録する">
+				</form>
+			</div>
+		</div>
+	</div>
+	
+<!-- フッター -->
+	<div id="footer-outer"></div>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+    
+    <script type="text/javascript">
+		$(function(){
+			$("#header-outer").load("header #header");
+			$("#navbar-outer").load("navbar #navbar");
+			$("#footer-outer").load("footer #footer");
+		});
+		$(window).load(function () {
+			$("#index").attr("class", "active");
+		});
+		$(function(){
+			var msg_required="必須入力です。";
+			
+			$("[name='date']").attr("data-validation", "required");
+			$("[name='date']").attr("data-validation-error-msg", '日時は' + msg_required);
+
+			$("[name='repetition']").attr("data-validation", "required");
+			$("[name='repetition']").attr("data-validation-error-msg", '回数は' + msg_required);
+			
+			$("[name='setCount']").attr("data-validation", "required");
+			$("[name='setCount']").attr("data-validation-error-msg", 'セット数は' + msg_required);
+
+			$.validate({
+			    errorMessagePosition : 'top',
+			    language : {
+			    	errorTitle: 'フォームの送信に失敗しました'
+			    }
+			});
+		});
+	</script>
 </body>
 </html>

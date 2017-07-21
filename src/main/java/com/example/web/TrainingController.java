@@ -87,4 +87,19 @@ public class TrainingController {
 		iTrainingService.deleteByDate(date);
 		return toRecord(model);
 	}
+	
+	@RequestMapping(value="/header")
+	public String header(Model model){
+		return packagePath + "header";
+	}
+	
+	@RequestMapping(value="/navbar")
+	public String navbar(Model model){
+		return packagePath + "navbar";
+	}
+	
+	@RequestMapping(value="/footer")
+	public String footer(Model model){
+		return packagePath + "footer";
+	}
 }
