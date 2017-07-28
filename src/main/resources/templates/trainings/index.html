@@ -19,13 +19,11 @@
 			<div class="col-sm-12">
 				<h1>トレーニング記録</h1>
 				<form th:action="@{/insert}" method="post">
-					<span>日時<input type="date" name="date" data-validation-error-msg-container="#date-error-dialog">
-						<span id="date-error-dialog"></span>
-					</span>
+					<span>日時<input type="date" name="date" data-validation-error-msg-container="#date-error-dialog"></span>
 					<div id="form">
 						<div>
-							<select name="trainingId">
-								<option th:text="メニュー" selected />
+							<select name="trainingId" data-validation-error-msg-container="#trainingId-error-dialog">
+								<option th:text="メニュー" value="" selected />
 								<option th:each="training : ${trainingList}" th:text="${training.trainingName}" th:value="${training.id}">
 							</select>
 							<input type="text" name="weight">kg ☓
@@ -64,7 +62,10 @@
 				
 				$("[name='date']").attr("data-validation", "required");
 				$("[name='date']").attr("data-validation-error-msg", '日時は' + msg_required);
-	
+				
+				$("[name='trainingId']").attr("data-validation", "required");
+				$("[name='trainingId']").attr("data-validation-error-msg", 'メニューは' + msg_required);
+				
 				$("[name='repetition']").attr("data-validation", "required");
 				$("[name='repetition']").attr("data-validation-error-msg", '回数は' + msg_required);
 				
@@ -79,6 +80,7 @@
 				});
 			});
 		};
+		formValidation();
 		var form = $('#form').html();
 		$(function(){
 			$('#appendForm').click(function(){
