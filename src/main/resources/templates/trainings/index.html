@@ -18,7 +18,7 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<h1>トレーニング記録</h1>
-				<form id="repeater" th:action="@{/insert}" method="post">
+				<form th:action="@{/insert}" method="post">
 					<span>日時<input type="date" name="date" data-validation-error-msg-container="#date-error-dialog">
 						<span id="date-error-dialog"></span>
 					</span>
@@ -35,7 +35,8 @@
 						</div>
 					</div>
 					<input type="submit" value="記録する">
-					<input type="button" id="addForm" value="+">
+					<input type="button" id="appendForm" value="+">
+					<input type="button" id="removeForm" value="-">
 				</form>
 			</div>
 		</div>
@@ -57,29 +58,37 @@
 		$(window).load(function () {
 			$("#index").attr("class", "active");
 		});
-		$(function(){
-			var msg_required="必須入力です。";
-			
-			$("[name='date']").attr("data-validation", "required");
-			$("[name='date']").attr("data-validation-error-msg", '日時は' + msg_required);
-
-			$("[name='repetition']").attr("data-validation", "required");
-			$("[name='repetition']").attr("data-validation-error-msg", '回数は' + msg_required);
-			
-			$("[name='setCount']").attr("data-validation", "required");
-			$("[name='setCount']").attr("data-validation-error-msg", 'セット数は' + msg_required);
-
-			$.validate({
-			    errorMessagePosition : 'top',
-			    language : {
-			    	errorTitle: 'フォームの送信に失敗しました'
-			    }
+		function formValidation(){
+			$(function(){
+				var msg_required="必須入力です。";
+				
+				$("[name='date']").attr("data-validation", "required");
+				$("[name='date']").attr("data-validation-error-msg", '日時は' + msg_required);
+	
+				$("[name='repetition']").attr("data-validation", "required");
+				$("[name='repetition']").attr("data-validation-error-msg", '回数は' + msg_required);
+				
+				$("[name='setCount']").attr("data-validation", "required");
+				$("[name='setCount']").attr("data-validation-error-msg", 'セット数は' + msg_required);
+	
+				$.validate({
+				    errorMessagePosition : 'top',
+				    language : {
+				    	errorTitle: 'フォームの送信に失敗しました'
+				    }
+				});
 			});
-		});
+		};
 		var form = $('#form').html();
 		$(function(){
-			$('#addForm').click(function(){
+			$('#appendForm').click(function(){
 				$('#form').append(form);
+				formValidation();
+			});
+		});
+		$(function(){
+			$('#removeForm').click(function(){
+				$('#form div:last-child').remove();
 			});
 		});
 	</script>
