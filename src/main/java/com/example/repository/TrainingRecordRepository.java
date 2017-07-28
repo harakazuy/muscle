@@ -52,17 +52,17 @@ public class TrainingRecordRepository {
 		return trainingDateList;
 	};
 	
-	public Integer insertTrainingRecord(Object[] formInput) {
+	public Integer insertRecord(TrainingRecord record) {
 		String sql = "insert into " + recordsTable + " (training_date, training_id, weight, repetition, set_count) ";
 		sql += "values (:date, :trainingId, :weight, :repetition, :setCount)";
 		SqlParameterSource param = new MapSqlParameterSource()
-				.addValue("date", formInput[0])
-				.addValue("trainingId", formInput[1])
-				.addValue("weight", formInput[2])
-				.addValue("repetition", formInput[3])
-				.addValue("setCount", formInput[4]);
+				.addValue("date", record.getDate())
+				.addValue("trainingId", record.getTrainingId())
+				.addValue("weight", record.getWeight())
+				.addValue("repetition", record.getRepetition())
+				.addValue("setCount", record.getSetCount());
 		return template.update(sql, param);
-	};
+	}
 	
 	public Integer updateRecord(TrainingRecord record) {
 		String sql = "update " + recordsTable + " set ";

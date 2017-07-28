@@ -15,7 +15,7 @@ import com.example.repository.TrainingRepository;
 import com.example.web.TrainingRecordForm;
 
 @Service
-public class TrainingService implements ITrainingService {
+public class TrainingService {
 	@Autowired
 	TrainingRepository repository;
 	
@@ -29,9 +29,11 @@ public class TrainingService implements ITrainingService {
 	public Training findById(Integer id){
 		return repository.findById(id);
 	}
-	
-	public Integer insertTrainingRecord(Object[] formInput){
-		return recordRepository.insertTrainingRecord(formInput);
+		
+	public void insertRecordForm(TrainingRecordForm form){
+		List<TrainingRecord> recordList = this.formToRecordList2(form);
+		recordList.forEach(record -> this.insertRecord(record));
+		return;
 	}
 	
 	public void updateRecordForm(TrainingRecordForm form){
@@ -54,6 +56,24 @@ public class TrainingService implements ITrainingService {
 			recordList.add(record);
 		});
 		return recordList;
+	}
+	
+	public List<TrainingRecord> formToRecordList2(TrainingRecordForm form){
+		List<TrainingRecord> recordList = new ArrayList<TrainingRecord>();
+		for(int i = 0; i < form.getTrainingId().length; i++) {
+			TrainingRecord record = new TrainingRecord();
+			record.setDate(form.getDate());
+			record.setTrainingId(form.getTrainingId()[i]);
+			record.setWeight(form.getWeight()[i]);
+			record.setRepetition(form.getRepetition()[i]);
+			record.setSetCount(form.getSetCount()[i]);
+			recordList.add(record);
+		};
+		return recordList;
+	}
+	
+	public Integer insertRecord(TrainingRecord record){
+		return recordRepository.insertRecord(record);
 	}
 	
 	public Integer updateRecord(TrainingRecord record){

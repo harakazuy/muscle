@@ -18,24 +18,24 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<h1>トレーニング記録</h1>
-				<form th:action="@{/insert}" method="post">
-					<div>日時</div>
-					<input type="date" name="date" data-validation-error-msg-container="#date-error-dialog">
-					<div id="date-error-dialog"></div>
-					<div>メニュー</div>
-					<select name="trainingId">
-						<option th:each="training : ${trainingList}" th:value="${training.id}" th:text="${training.trainingName}"/>
-					</select>
-					<div>ウェイト</div>
-					<input type="text" name="weight">
-					<div>回数</div>
-					<input type="text" name="repetition" data-validation-error-msg-container="#repetition-error-dialog">
-					<div id="repetition-error-dialog"></div>
-					<div>セット数</div>
-					<input type="text" name="setCount" data-validation-error-msg-container="#setCount-error-dialog">
-					<div id="setCount-error-dialog"></div>
-					<br>
+				<form id="repeater" th:action="@{/insert}" method="post">
+					<span>日時<input type="date" name="date" data-validation-error-msg-container="#date-error-dialog">
+						<span id="date-error-dialog"></span>
+					</span>
+					<div id="form">
+						<div>
+							<select name="trainingId">
+								<option th:text="メニュー" selected />
+								<option th:each="training : ${trainingList}" th:text="${training.trainingName}" th:value="${training.id}">
+							</select>
+							<input type="text" name="weight">kg ☓
+							<input type="text" name="repetition" data-validation-error-msg-container="#repetition-error-dialog">回 ☓
+							<input type="text" name="setCount" data-validation-error-msg-container="#setCount-error-dialog">セット
+							<input type="button" value="削除"/>
+						</div>
+					</div>
 					<input type="submit" value="記録する">
+					<input type="button" id="addForm" value="+">
 				</form>
 			</div>
 		</div>
@@ -74,6 +74,12 @@
 			    language : {
 			    	errorTitle: 'フォームの送信に失敗しました'
 			    }
+			});
+		});
+		var form = $('#form').html();
+		$(function(){
+			$('#addForm').click(function(){
+				$('#form').append(form);
 			});
 		});
 	</script>

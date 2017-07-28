@@ -1,6 +1,5 @@
 package com.example.web;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.domain.Training;
 import com.example.domain.TrainingRecord;
 import com.example.domain.TrainingRecordsDate;
-import com.example.service.ITrainingService;
+import com.example.service.TrainingService;
 import com.example.service.TrainingRecordsDateService;
 
 @Controller
@@ -24,7 +23,7 @@ import com.example.service.TrainingRecordsDateService;
 public class TrainingController {
 
 	@Autowired
-	ITrainingService iTrainingService;
+	TrainingService trainingService;
 	
 	@Autowired
 	TrainingRecordsDateService trainingRecordsDateService;
@@ -38,7 +37,7 @@ public class TrainingController {
 	
 	@RequestMapping("/")
 	public String index(Model model){
-		List<Training> trainingList = iTrainingService.findAll();
+		List<Training> trainingList = trainingService.findAll();
 		model.addAttribute("trainingList", trainingList);
 		return packagePath + "index";
 	}
@@ -55,36 +54,33 @@ public class TrainingController {
 		List<TrainingRecord> trainingRecords = trainingRecordsDateService.findByDate(date);
 		model.addAttribute("date", date);
 		model.addAttribute("trainingRecords", trainingRecords);
-		List<Training> trainingList = iTrainingService.findAll();
+		List<Training> trainingList = trainingService.findAll();
 		model.addAttribute("trainingList", trainingList);
 		return packagePath + "edit";
 	}
-		
+	
 	@RequestMapping(value="/insert", method=RequestMethod.POST)
-	public String insert(@RequestParam("date") Date date,
-			@RequestParam("trainingId") Integer trainingId, @RequestParam("weight") BigDecimal weight,
-			@RequestParam("repetition") Integer repetition, @RequestParam("setCount") Integer setCount,
-			Model model){
-		Object[] formInput = {date, trainingId, weight, repetition, setCount};
-		iTrainingService.insertTrainingRecord(formInput);
+	public String insert(@Validated TrainingRecordForm form, BindingResult result, Model model){
+		trainingService.insertRecordForm(form);
+		model.addAttribute("isSuccess", true); // 成功(仮)
 		return toRecord(model);
 	}
 	
 	@RequestMapping(value="/update", method=RequestMethod.POST)
-	public String update(@Validated TrainingRecordForm form, BindingResult result,Model model){
-		iTrainingService.updateRecordForm(form);
+	public String update(@Validated TrainingRecordForm form, BindingResult result, Model model){
+		trainingService.updateRecordForm(form);
 		return toRecord(model);
 	}
 	
 	@RequestMapping(value="/delete")
 	public String delete(@RequestParam("id") Integer id, Model model){
-		iTrainingService.deleteById(id);
+		trainingService.deleteById(id);
 		return toRecord(model);
 	}
 	
 	@RequestMapping(value="/deleteByDate")
 	public String deleteByDate(@RequestParam("date") Date date, Model model){
-		iTrainingService.deleteByDate(date);
+		trainingService.deleteByDate(date);
 		return toRecord(model);
 	}
 	
