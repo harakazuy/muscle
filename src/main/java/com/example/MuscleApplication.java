@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @RestController
-public class TimeAttack2Application {
+public class MuscleApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TimeAttack2Application.class, args);
+		SpringApplication.run(MuscleApplication.class, args);
 	}
 }

@@ -3,9 +3,14 @@ spring:
     view:
       prefix: /WEB-INF/views/
       suffix: .jsp
+  thymeleaf:
+    mode: LEGACYHTML5
+    cache: false
+    encoding: UTF-8
 
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://172.16.0.17:5432/takuyakurihara
+#    url: jdbc:postgresql://localhost:5432/student
+    url: jdbc:postgresql://172.16.0.17:5432/kazuya_hara
     username: postgres
     password: postgres
