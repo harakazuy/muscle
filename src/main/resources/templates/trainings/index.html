@@ -16,27 +16,38 @@
 	
 	<div class="container">
 		<div class="row">
-			<div class="col-sm-12">
 				<h1>トレーニング記録</h1>
-				<form th:action="@{/insert}" method="post">
+				<form th:action="@{/insert}" method="post" class="col-sm-offset-1">
 					<span>日時<input type="date" name="date" data-validation-error-msg-container="#date-error-dialog"></span>
 					<div id="form">
-						<div>
-							<select name="trainingId" data-validation-error-msg-container="#trainingId-error-dialog">
-								<option th:text="メニュー" value="" selected />
-								<option th:each="training : ${trainingList}" th:text="${training.trainingName}" th:value="${training.id}">
-							</select>
-							<input type="text" name="weight">kg ☓
-							<input type="text" name="repetition" data-validation-error-msg-container="#repetition-error-dialog">回 ☓
-							<input type="text" name="setCount" data-validation-error-msg-container="#setCount-error-dialog">セット
-							<input type="button" value="削除"/>
+						<div class="col-sm-12">
+							<span class="col-sm-2">
+								<select name="trainingId" data-validation-error-msg-container="#trainingId-error-dialog">
+									<option th:text="メニュー" value="" selected />
+									<option th:each="training : ${trainingList}" th:text="${training.trainingName}" th:value="${training.id}">
+								</select>
+							</span>
+							<span class="col-sm-2">
+								<input type="text" name="weight" size="8" maxlength="6">
+								&nbsp;kg&nbsp;&nbsp;☓
+							</span>
+							<span class="col-sm-2">
+								<input type="text" name="repetition" size="5" maxlength="3" data-validation-error-msg-container="#repetition-error-dialog">
+								&nbsp;回&nbsp;&nbsp;☓
+							</span>
+							<span class="col-sm-2" style="padding:0">
+								<input type="text" name="setCount" size="5" maxlength="3" data-validation-error-msg-container="#setCount-error-dialog">
+								&nbsp;セット
+							</span>
+							<span class="col-sm-1">
+								<!-- <input type="button" value="削除"> -->
+							</span>
 						</div>
 					</div>
 					<input type="submit" value="記録する">
 					<input type="button" id="appendForm" value="+">
 					<input type="button" id="removeForm" value="-">
 				</form>
-			</div>
 		</div>
 	</div>
 	
