@@ -32,15 +32,19 @@
 								&nbsp;kg&nbsp;&nbsp;☓
 							</span>
 							<span class="col-sm-2">
-								<input type="text" name="repetition" size="5" maxlength="3" data-validation-error-msg-container="#repetition-error-dialog">
+								<select id="repetition" name="repetition" data-validation-error-msg-container="#repetition-error-dialog">
+									<option th:text="--" value="" selected/>
+								</select>
 								&nbsp;回&nbsp;&nbsp;☓
 							</span>
 							<span class="col-sm-2" style="padding:0">
-								<input type="text" name="setCount" size="5" maxlength="3" data-validation-error-msg-container="#setCount-error-dialog">
+								<select id="setCount" name="setCount" data-validation-error-msg-container="#setCount-error-dialog">
+									<option th:text="--" value="" selected/>
+								</select>
 								&nbsp;セット
 							</span>
 							<span class="col-sm-1">
-								<!-- <input type="button" value="削除"> -->
+								<input type="button" class="removeCurrent" value="削除">
 							</span>
 						</div>
 					</div>
@@ -67,42 +71,53 @@
 		$(window).load(function () {
 			$("#index").attr("class", "active");
 		});
+		$(function(){
+			for(var i = 1; i <= 50; i++){
+				$('#repetition').append('<option value=\"' + i + '\">' + i + '</option>')
+			}
+			for(var i = 1; i <= 20; i++){
+				$('#setCount').append('<option value=\"' + i + '\">' + i + '</option>')
+			}
+		});
 		function formValidation(){
-			$(function(){
-				var msg_required="必須入力です。";
-				
-				$("[name='date']").attr("data-validation", "required");
-				$("[name='date']").attr("data-validation-error-msg", '日時は' + msg_required);
-				
-				$("[name='trainingId']").attr("data-validation", "required");
-				$("[name='trainingId']").attr("data-validation-error-msg", 'メニューは' + msg_required);
-				
-				$("[name='repetition']").attr("data-validation", "required");
-				$("[name='repetition']").attr("data-validation-error-msg", '回数は' + msg_required);
-				
-				$("[name='setCount']").attr("data-validation", "required");
-				$("[name='setCount']").attr("data-validation-error-msg", 'セット数は' + msg_required);
-	
-				$.validate({
-				    errorMessagePosition : 'top',
-				    language : {
-				    	errorTitle: 'フォームの送信に失敗しました'
-				    }
-				});
+			var msg_required="必須入力です。";
+			
+			$("[name='date']").attr("data-validation", "required");
+			$("[name='date']").attr("data-validation-error-msg", '日時は' + msg_required);
+			
+			$("[name='trainingId']").attr("data-validation", "required");
+			$("[name='trainingId']").attr("data-validation-error-msg", 'メニューは' + msg_required);
+			
+			$("[name='repetition']").attr("data-validation", "required");
+			$("[name='repetition']").attr("data-validation-error-msg", '回数は' + msg_required);
+			
+			$("[name='setCount']").attr("data-validation", "required");
+			$("[name='setCount']").attr("data-validation-error-msg", 'セット数は' + msg_required);
+
+			$.validate({
+			    errorMessagePosition : 'top',
+			    language : {
+			    	errorTitle: 'フォームの送信に失敗しました'
+			    }
 			});
 		};
 		formValidation();
-		var form = $('#form').html();
+		function removeCurrent(){
+			$('.removeCurrent').click(function(){
+				$(this).parent().parent().remove();
+			})
+		};
+		removeCurrent();
 		$(function(){
+			var form = $('#form').html();
 			$('#appendForm').click(function(){
 				$('#form').append(form);
 				formValidation();
+				removeCurrent();
 			});
 		});
-		$(function(){
-			$('#removeForm').click(function(){
-				$('#form div:last-child').remove();
-			});
+		$('#removeForm').click(function(){
+			$('#form div:last-child').remove();
 		});
 	</script>
 </body>
