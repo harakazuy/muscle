@@ -22,9 +22,9 @@
 					日時<input type="date" name="date" th:value="${date}" data-validation-error-msg-container="#date-error-dialog">
 					<a th:href="@{/deleteByDate(date=${date})}"><input type="button" value="一括削除"></a>
 				</span>
-				<!-- サイズを取得して利用できる？ <span th:text="${trainingRecords.size()}"></span> -->
 				<div id="form">
-					<div class="col-sm-12" th:each="trainingRecord : ${trainingRecords}">
+					<input disabled type="hidden" id="recordSize" th:value="${trainingRecords.size()}">
+					<div class="col-sm-12" th:each="trainingRecord, status : ${trainingRecords}">
 						<input type="hidden" name="id" th:value="${trainingRecord.id}">
 						<span class="col-sm-2">
 							<select name="trainingId" data-validation-error-msg-container="#trainingId-error-dialog">
@@ -37,15 +37,17 @@
 							&nbsp;kg&nbsp;&nbsp;☓
 						</span>
 						<span class="col-sm-2">
-							<select name="repetition" data-validation-error-msg-container="#repetition-error-dialog">
+							<select th:id="'repetition_' + ${status.index}" name="repetition" data-validation-error-msg-container="#repetition-error-dialog">
 								<option th:text="--" value="">
 							</select>
+							<input disabled type="hidden" th:value="${trainingRecord.repetition}">
 							&nbsp;回&nbsp;&nbsp;☓
 						</span>
 						<span class="col-sm-2" style="padding:0">
-							<select name="setCount" data-validation-error-msg-container="#setCount-error-dialog">
+							<select th:id="'setCount_' + ${status.index}" name="setCount" data-validation-error-msg-container="#setCount-error-dialog">
 								<option th:text="--" value="">
 							</select>
+							<input disabled type="hidden" th:value="${trainingRecord.setCount}">
 							&nbsp;セット
 						</span>
 						<span class="col-sm-1">

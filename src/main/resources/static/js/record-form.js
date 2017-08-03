@@ -18,8 +18,19 @@ function setTrainingForm(page){
 		appendRepAndCount();
 		form = $('#trainingForm').html();
 		if(page == "index") appendForm(form);
+		if(page == "edit"){
+			optionSelected("#repetition_", $("#recordSize").val())
+			optionSelected("#setCount_", $("#recordSize").val())
+		}
 	});
 };
+
+function optionSelected(selectElement, size){
+	for(var i = 0; i < size; i++){
+		var current = $(selectElement + i)
+		current.val(current.next("input[type='hidden']").val());
+	}
+}
 
 function appendRepAndCount(){
 	for(var i = 1; i <= 50; i++){
