@@ -98,4 +98,11 @@ public class TrainingController {
 	public String footer(Model model){
 		return packagePath + "footer";
 	}
+	
+	@RequestMapping(value="/form")
+	public String form(Model model){
+		List<Training> trainingList = trainingService.findAll();
+		model.addAttribute("trainingList", trainingList);
+		return packagePath + "form";
+	}
 }

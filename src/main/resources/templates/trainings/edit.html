@@ -16,33 +16,49 @@
 	
 	<div class="container">
 		<div class="row">
-			<div class="col-sm-12">
-				<h1>トレーニング履歴編集</h1>
-				<form th:action="@{/update}" method="post">
-					<table border=1>
-						<tr><th colspan=5>
-							<span th:text="${date}"></span>
-							<input type="hidden" name="date" th:value="${date}">
-							<a th:href="@{/deleteByDate(date=${date})}"><input type="button" value="一括削除"></a>
-						</th></tr>
-						<tr><td>メニュー</td><td>ウェイト</td><td>回数<div id="repetition-error-dialog"></div></td><td>セット数<div id="setCount-error-dialog"></div></td><td></td></tr>
-						<tr th:each="trainingRecord : ${trainingRecords}">
-							<input type="hidden" name="id" th:value="${trainingRecord.id}">
-							<td>
-								<select name="trainingId">
-									<option th:each="training : ${trainingList}" th:text="${training.trainingName}" th:value="${training.id}" th:selected="${trainingRecord.trainingId == training.id}">
-								</select>
-							</td>
-							<td><input type="text" name="weight" th:value="${trainingRecord.weight}" />kg</td>
-							<td><input type="text" name="repetition" th:value="${trainingRecord.repetition}" data-validation-error-msg-container="#repetition-error-dialog" /></td>
-							<td><input type="text" name="setCount" th:value="${trainingRecord.setCount}" data-validation-error-msg-container="#setCount-error-dialog" /></td>
-							<td><a th:href="@{/delete(id=${trainingRecord.id})}"><input type="button" value="削除"></a></td>
-						</tr>
-					</table>
-					<input type="submit" value="更新">
-					<input type="button" onclick="location.href='/toRecord'" value="キャンセル">
-				</form>
-			</div>
+			<h1>トレーニング履歴編集</h1>
+			<form th:action="@{/update}" method="post" class="col-sm-offset-1">
+				<span>
+					日時<input type="date" name="date" th:value="${date}" data-validation-error-msg-container="#date-error-dialog">
+					<a th:href="@{/deleteByDate(date=${date})}"><input type="button" value="一括削除"></a>
+				</span>
+				<!-- サイズを取得して利用できる？ <span th:text="${trainingRecords.size()}"></span> -->
+				<div id="form">
+					<div class="col-sm-12" th:each="trainingRecord : ${trainingRecords}">
+						<input type="hidden" name="id" th:value="${trainingRecord.id}">
+						<span class="col-sm-2">
+							<select name="trainingId" data-validation-error-msg-container="#trainingId-error-dialog">
+								<option th:text="メニュー" value="">
+								<option th:each="training : ${trainingList}" th:text="${training.trainingName}" th:value="${training.id}" th:selected="${trainingRecord.trainingId == training.id}">
+							</select>
+						</span>
+						<span class="col-sm-2">
+							<input type="text" name="weight" th:value="${trainingRecord.weight}" size="8" maxlength="6">
+							&nbsp;kg&nbsp;&nbsp;☓
+						</span>
+						<span class="col-sm-2">
+							<select name="repetition" data-validation-error-msg-container="#repetition-error-dialog">
+								<option th:text="--" value="">
+							</select>
+							&nbsp;回&nbsp;&nbsp;☓
+						</span>
+						<span class="col-sm-2" style="padding:0">
+							<select name="setCount" data-validation-error-msg-container="#setCount-error-dialog">
+								<option th:text="--" value="">
+							</select>
+							&nbsp;セット
+						</span>
+						<span class="col-sm-1">
+							<input type="button" class="removeCurrent" value="削除">
+						</span>
+					</div>
+				</div>
+				<input type="submit" value="更新">
+				<input type="button" onclick="location.href='/toRecord'" value="キャンセル">
+				<input type="button" id="appendForm" value="+">
+				<input type="button" id="removeForm" value="-">
+			</form>
+			<div id="form-outer" style="display:none"></div>
 		</div>
 	</div>
 
@@ -53,34 +69,12 @@
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
     
+    <script src="js/record-form.js"></script>
     <script type="text/javascript">
-		$(function(){
-			$("#header-outer").load("header #header");
-			$("#navbar-outer").load("navbar #navbar");
-			$("#footer-outer").load("footer #footer");
-		});
-		$(window).load(function () {
+    	setTraininForm("edit");
+		/* $(window).load(function () {
 			$("#record").attr("class", "active");
-		});
-		$(function(){
-			var msg_required="必須入力です。";
-			
-			$("[name='date']").attr("data-validation", "required");
-			$("[name='date']").attr("data-validation-error-msg", '日時は' + msg_required);
-
-			$("[name='repetition']").attr("data-validation", "required");
-			$("[name='repetition']").attr("data-validation-error-msg", '回数は' + msg_required);
-			
-			$("[name='setCount']").attr("data-validation", "required");
-			$("[name='setCount']").attr("data-validation-error-msg", 'セット数は' + msg_required);
-
-			$.validate({
-			    errorMessagePosition : 'top',
-			    language : {
-			    	errorTitle: 'フォームの送信に失敗しました'
-			    }
-			});
-		});
+		}); */
 	</script>
 </body>
 </html>
