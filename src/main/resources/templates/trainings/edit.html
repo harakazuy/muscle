@@ -49,12 +49,12 @@
 							&nbsp;セット
 						</span>
 						<span class="col-sm-1">
-							<input type="button" class="removeCurrent" value="削除">
+							<input type="button" class="removeRow" value="削除">
 						</span>
 					</div>
 				</div>
 				<input type="submit" value="更新">
-				<input type="button" onclick="location.href='/toRecord'" value="キャンセル">
+				<input type="button" th:onclick="'window.location.href = \'' + @{/toRecord} + '\''" value="キャンセル">
 				<input type="button" id="appendForm" value="+">
 				<input type="button" id="removeForm" value="-">
 			</form>
@@ -71,7 +71,7 @@
     
     <script src="js/record-form.js"></script>
     <script type="text/javascript">
-    	setTraininForm("edit");
+    	setTrainingForm("edit");
 		/* $(window).load(function () {
 			$("#record").attr("class", "active");
 		}); */
