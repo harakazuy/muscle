@@ -46,15 +46,9 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     
+    <script src="js/record-form.js"></script>
     <script type="text/javascript">
-		$(function(){
-			$("#header-outer").load("header #header");
-			$("#navbar-outer").load("navbar #navbar");
-			$("#footer-outer").load("footer #footer");
-		});
-		$(window).load(function () {
-			$("#record").addClass("active");
-		});
+    	loadNavbar("#record");
 	</script>
 </body>
 </html>

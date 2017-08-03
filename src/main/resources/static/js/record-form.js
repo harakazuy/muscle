@@ -3,8 +3,13 @@
  */
 
 $("#header-outer").load("header #header");
-$("#navbar-outer").load("navbar #navbar");
 $("#footer-outer").load("footer #footer");
+
+function loadNavbar(pageId){
+	$("#navbar-outer").load("navbar #navbar", function(){
+		$(pageId).attr("class", "active");
+	});
+}
 
 var form;
 
