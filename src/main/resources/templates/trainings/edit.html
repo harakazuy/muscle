@@ -51,7 +51,7 @@
 							&nbsp;セット
 						</span>
 						<span class="col-sm-1">
-							<input type="button" class="removeRow" value="削除">
+							<input type="button" class="removeRecord" value="削除">
 						</span>
 					</div>
 				</div>
@@ -60,9 +60,13 @@
 				<input type="button" id="appendForm" value="+">
 				<input type="button" id="removeForm" value="-">
 			</form>
-			<div id="form-outer" style="display:none"></div>
 		</div>
 	</div>
+	
+	<!-- 追加フォーム -->
+	<div id="form-outer" style="display:none"></div>
+	<!-- コンテキストパス -->
+	<input disabled type="hidden" id="contextPath" th:value="@{/}">
 
 <!-- フッター -->
 	<div id="footer-outer"></div>

@@ -72,8 +72,8 @@ public class TrainingService {
 		return recordRepository.updateRecord(record);
 	}
 	
-	public void deleteById(Integer id) {
-		recordRepository.deleteById(id);
+	public Integer deleteById(Integer id) {
+		return recordRepository.deleteById(id);
 	}
 	
 	public Integer deleteByDate(Date date) {

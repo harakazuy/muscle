@@ -12,6 +12,27 @@ function loadNavbar(pageId){
 }
 
 var form;
+var contextPath = $("#contextPath").val();
+
+$('.removeRecord').click(function(){
+	var thisRecord = $(this).parent().parent();
+	if(confirm("削除しますか？")){
+    	$.ajax({
+			type: "POST",
+			url: contextPath + "delete",
+			data: "id=" + $("[name='id']", thisRecord).val(),
+			context: thisRecord
+    	}).done(function(data, textStatus, jqXHR){
+    		if(data == 1){
+    			this.remove();
+    		}else{
+    			alert("削除できませんでした。")
+    		}
+    	}).fail(function(jqXHR, textStatus, errorThrown){
+    		// 通信エラーの場合処理
+    	})
+	}
+});
 
 function setTrainingForm(page){
 	$("#form-outer").load("form #trainingForm", function(){
