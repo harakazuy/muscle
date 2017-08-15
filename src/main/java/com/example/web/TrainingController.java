@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.domain.Training;
 import com.example.domain.TrainingRecord;
@@ -72,10 +73,10 @@ public class TrainingController {
 		return toRecord(model);
 	}
 	
-	@RequestMapping(value="/delete")
-	public String delete(@RequestParam("id") Integer id, Model model){
-		trainingService.deleteById(id);
-		return toRecord(model);
+	@RequestMapping(value="/delete", method=RequestMethod.POST)
+	@ResponseBody
+	public Integer delete(@RequestParam("id") Integer id, Model model){
+		return trainingService.deleteById(id);
 	}
 	
 	@RequestMapping(value="/deleteByDate")
@@ -84,6 +85,7 @@ public class TrainingController {
 		return toRecord(model);
 	}
 	
+// ページの部品	
 	@RequestMapping(value="/header")
 	public String header(Model model){
 		return packagePath + "header";
@@ -97,5 +99,12 @@ public class TrainingController {
 	@RequestMapping(value="/footer")
 	public String footer(Model model){
 		return packagePath + "footer";
+	}
+	
+	@RequestMapping(value="/form")
+	public String form(Model model){
+		List<Training> trainingList = trainingService.findAll();
+		model.addAttribute("trainingList", trainingList);
+		return packagePath + "form";
 	}
 }

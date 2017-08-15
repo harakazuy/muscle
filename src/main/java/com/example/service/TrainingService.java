@@ -2,7 +2,6 @@ package com.example.service;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,40 +30,35 @@ public class TrainingService {
 	}
 		
 	public void insertRecordForm(TrainingRecordForm form){
-		List<TrainingRecord> recordList = this.formToRecordList2(form);
+		List<TrainingRecord> recordList = this.formToRecordList(form);
 		recordList.forEach(record -> this.insertRecord(record));
 		return;
 	}
 	
 	public void updateRecordForm(TrainingRecordForm form){
 		List<TrainingRecord> recordList = this.formToRecordList(form);
-		recordList.forEach(record -> this.updateRecord(record));
+		recordList.forEach(record -> {
+			if(record.getId() != null){
+				this.updateRecord(record);
+			}else{
+				this.insertRecord(record);
+			}
+		});
 		return;
 	}
 	
 	public List<TrainingRecord> formToRecordList(TrainingRecordForm form){
 		List<TrainingRecord> recordList = new ArrayList<TrainingRecord>();
-		List<Integer> idList = Arrays.asList(form.getId());
-		idList.forEach(id -> {
-			TrainingRecord record = new TrainingRecord();
-			Integer index = idList.indexOf(id);
-			record.setId(id);
-			record.setTrainingId(form.getTrainingId()[index]);
-			record.setWeight(form.getWeight()[index]);
-			record.setRepetition(form.getRepetition()[index]);
-			record.setSetCount(form.getSetCount()[index]);
-			recordList.add(record);
-		});
-		return recordList;
-	}
-	
-	public List<TrainingRecord> formToRecordList2(TrainingRecordForm form){
-		List<TrainingRecord> recordList = new ArrayList<TrainingRecord>();
 		for(int i = 0; i < form.getTrainingId().length; i++) {
 			TrainingRecord record = new TrainingRecord();
 			record.setDate(form.getDate());
+			if(form.getId().length != 0){
+				record.setId(form.getId()[i]);
+			};
 			record.setTrainingId(form.getTrainingId()[i]);
-			record.setWeight(form.getWeight()[i]);
+			record.setWeight(
+					form.getWeight().length != 0 ? form.getWeight()[i] : null
+							);
 			record.setRepetition(form.getRepetition()[i]);
 			record.setSetCount(form.getSetCount()[i]);
 			recordList.add(record);
@@ -80,11 +74,16 @@ public class TrainingService {
 		return recordRepository.updateRecord(record);
 	}
 	
-	public void deleteById(Integer id) {
-		recordRepository.deleteById(id);
+	public Integer deleteById(Integer id) {
+		return recordRepository.deleteById(id);
 	}
 	
 	public Integer deleteByDate(Date date) {
 		return recordRepository.deleteByDate(date);
+	}
+	
+	public Integer countTotalPages(Integer limit){
+		Integer dates = recordRepository.countDates();
+		return (dates + limit - 1) / limit;
 	}
 }
