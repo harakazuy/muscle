@@ -22,39 +22,25 @@
 				    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 				    トレーニングを記録しました。
   				</div>
-				<table th:each="trainingRecordsDate : ${trainingRecordsDateList}" border=1>
-					<tr><th colspan=4>
-							<span th:text="${trainingRecordsDate.date}"></span>
-							<a th:href="@{/toEdit(date=${trainingRecordsDate.date})}"><input type="button" value="編集"></a>
-					</th></tr>
-					<tr><td>メニュー</td><td>ウェイト</td><td>回数</td><td>セット数</td></tr>
-					<tr th:each="trainingRecord : ${trainingRecordsDate.trainingRecords}">
-						<td th:text="${trainingRecord.trainingName}"/>
-						<td th:text="${trainingRecord.weight}"/>
-						<td th:text="${trainingRecord.repetition}"/>
-						<td th:text="${trainingRecord.setCount}"/>
-					</tr>
-					<br>
-				</table>
+  				<div id="records_content"></div>
+				<ul id="records_pagination" class="pagination-sm"></ul>
 			</div>
 		</div>
 	</div>
+	
+	<!-- コンテキストパス -->
+	<input disabled type="hidden" id="contextPath" th:value="@{/}">
 
 <!-- フッター -->
 	<div id="footer-outer"></div>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/twbs-pagination/1.4.1/jquery.twbsPagination.min.js"></script>
     
+    <script src="js/record-form.js"></script>
     <script type="text/javascript">
-		$(function(){
-			$("#header-outer").load("header #header");
-			$("#navbar-outer").load("navbar #navbar");
-			$("#footer-outer").load("footer #footer");
-		});
-		$(window).load(function () {
-			$("#record").addClass("active");
-		});
+    	loadNavbar("#record");
 	</script>
 </body>
 </html>
