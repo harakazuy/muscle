@@ -85,6 +85,7 @@ public class TrainingController {
 		return toRecord(model);
 	}
 	
+// ページの部品	
 	@RequestMapping(value="/header")
 	public String header(Model model){
 		return packagePath + "header";

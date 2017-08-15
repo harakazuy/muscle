@@ -56,7 +56,9 @@ public class TrainingService {
 				record.setId(form.getId()[i]);
 			};
 			record.setTrainingId(form.getTrainingId()[i]);
-			record.setWeight(form.getWeight()[i]);
+			record.setWeight(
+					form.getWeight().length != 0 ? form.getWeight()[i] : null
+							);
 			record.setRepetition(form.getRepetition()[i]);
 			record.setSetCount(form.getSetCount()[i]);
 			recordList.add(record);
@@ -78,5 +80,10 @@ public class TrainingService {
 	
 	public Integer deleteByDate(Date date) {
 		return recordRepository.deleteByDate(date);
+	}
+	
+	public Integer countTotalPages(Integer limit){
+		Integer dates = recordRepository.countDates();
+		return (dates + limit - 1) / limit;
 	}
 }

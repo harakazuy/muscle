@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -16,6 +17,9 @@ import com.example.domain.TrainingRecord;
 public class TrainingRecordRepository {
 	private String recordsTable = "training_records";
 	private String trainingsTable = "trainings";
+	
+	@Autowired
+    private JdbcTemplate jdbcTemplate;
 	
 	@Autowired
 	private NamedParameterJdbcTemplate template;
@@ -31,6 +35,11 @@ public class TrainingRecordRepository {
 		return trainingRecord;
 	};
 	
+	private static final RowMapper<Date> dateRowMapper = (rs, i) -> {
+		Date date = rs.getDate("training_date");
+		return date;
+	};
+	
 	public List<TrainingRecord> findRecordsByDate(Date date) {
 		String sql = "select a.id, training_id, training_name, weight, repetition, set_count from ";
 		sql += recordsTable + " as a join " + trainingsTable + " as b ";
@@ -40,15 +49,21 @@ public class TrainingRecordRepository {
 		return trainingRecords;
 	};
 	
-	private static final RowMapper<Date> dateRowMapper = (rs, i) -> {
-		Date date = rs.getDate("training_date");
-		return date;
-	};
-	
 	public List<Date> findTrainingDateAll() {
 		String sql = "select training_date from " + recordsTable;
 		sql += " group by training_date order by training_date desc";
 		List<Date> trainingDateList = template.query(sql, dateRowMapper);
+		return trainingDateList;
+	};
+	
+	public List<Date> findTrainingDateByPage(Integer limit, Integer offset) {
+		String sql = "select training_date from " + recordsTable;
+		sql += " group by training_date order by training_date desc ";
+		sql += "limit :limit offset :offset";
+		SqlParameterSource param = new MapSqlParameterSource()
+				.addValue("limit", limit)
+				.addValue("offset", offset);
+		List<Date> trainingDateList = template.query(sql, param, dateRowMapper);
 		return trainingDateList;
 	};
 	
@@ -87,5 +102,10 @@ public class TrainingRecordRepository {
 		String sql = "delete from " + recordsTable + " where training_date = :date";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("date", date);
 		return template.update(sql, param);
+	}
+	
+	public Integer countDates() {
+		String sql = "select count(distinct training_date) from " + recordsTable;
+		return jdbcTemplate.queryForObject(sql, Integer.class);
 	}
 }

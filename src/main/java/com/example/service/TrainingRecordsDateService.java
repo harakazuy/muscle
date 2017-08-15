@@ -30,4 +30,19 @@ public class TrainingRecordsDateService {
 	public List<TrainingRecord> findByDate(Date date) {
 		return repository.findRecordsByDate(date);
 	}
+	
+	/**
+	 * @param limit ページあたりのレコード数
+	 * @param page 表示するページ
+	 */
+	public List<TrainingRecordsDate> findByPage(Integer limit, Integer page){
+		List<TrainingRecordsDate> trainingRecordsDateList = new ArrayList<TrainingRecordsDate>();
+		Integer offset = limit * (page - 1); // SQLのOFFSETのインデックス指定のため
+		List<Date> trainingDateList = repository.findTrainingDateByPage(limit, offset);
+		trainingDateList.forEach(date -> {
+			trainingRecordsDateList.add(
+					new TrainingRecordsDate(date, repository.findRecordsByDate(date)));
+		});
+		return trainingRecordsDateList;
+	}
 }

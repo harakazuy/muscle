@@ -2,15 +2,18 @@
  * 
  */
 
+// ヘッダー、フッター、ナビバー
 $("#header-outer").load("header #header");
 $("#footer-outer").load("footer #footer");
 
 function loadNavbar(pageId){
 	$("#navbar-outer").load("navbar #navbar", function(){
 		$(pageId).attr("class", "active");
+		if(pageId == "#record") paginationToRecord();
 	});
 }
 
+// フォーム
 var form;
 var contextPath = $("#contextPath").val();
 
@@ -37,6 +40,7 @@ $('.removeRecord').click(function(){
 function setTrainingForm(page){
 	$("#form-outer").load("form #trainingForm", function(){
 		appendRepAndCount();
+		formValidation();
 		form = $('#trainingForm').html();
 		if(page == "index") appendForm(form);
 		if(page == "edit"){
@@ -85,8 +89,6 @@ function formValidation(){
 	});
 };
 
-formValidation();
-
 function removable(){
 	$('.removeRow').click(function(){
 		$(this).parent().parent().remove();
@@ -108,3 +110,52 @@ $('#appendForm').click(function(){
 $('#removeForm').click(function(){
 	$('#form div:last-child').remove();
 });
+var restPath = contextPath + "rest"
+// ページネーション
+var limit = 3 // 1ページあたりのレコード数
+function paginationToRecord(){
+	$.ajax({
+		type: "POST",
+		url: restPath + "/totalPages",
+		data: "limit=" + limit
+	}).done(function(data, textStatus, jqXHR){
+		$('#records_pagination').twbsPagination({
+			totalPages: data,
+			visiblePages: 5,
+			first: '最初',
+			prev: '前へ',
+			next: '次へ',
+			last: '最後',
+			onPageClick: function (event, page) {
+				$.ajax({
+					type: "POST",
+					url: restPath + "/pagination",
+					data: {
+						limit : limit,
+						page : page
+					}
+				}).done(function(data, textStatus, jqXHR){
+					var json = JSON.parse(data);
+					var tableHtml = "";
+					$(json).each(function(){
+						tableHtml += '<table border=1>'
+							+ '<tr><th colspan=4>' + this["date"]
+							+ '<a href="' + contextPath + '/toEdit?date=' + this["date"] + '">'
+							+'<input type="button" value="編集"></a></th></tr>'
+							+ '<tr><td>メニュー</td><td>ウェイト</td><td>回数</td><td>セット数</td></tr>'
+						$(this["trainingRecords"]).each(function(){
+							tableHtml += '<tr><td>' + this["trainingName"] + '</td><td>' + (this["weight"] ? this["weight"] : "")
+								+ '</td><td>' + this["repetition"] + '</td><td>' + this["setCount"] + '</td></tr>'
+						})
+						tableHtml += '</table><br>'
+					})
+					$('#records_content').html(tableHtml);
+				}).fail(function(jqXHR, textStatus, errorThrown){
+					// 通信エラーの場合処理
+				})
+			}
+		})
+	}).fail(function(jqXHR, textStatus, errorThrown){
+		// 通信エラーの場合処理
+	})
+};
