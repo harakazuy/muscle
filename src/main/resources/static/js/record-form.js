@@ -59,10 +59,10 @@ function optionSelected(selectElement, size){
 
 function appendRepAndCount(){
 	for(var i = 1; i <= 50; i++){
-		$("[name='repetition']").append('<option value=\"' + i + '\">' + i + '</option>')
+		$("[name='repetition']").append(`<option value="${i}">${i}</option>`)
 	}
 	for(var i = 1; i <= 20; i++){
-		$("[name='setCount']").append('<option value=\"' + i + '\">' + i + '</option>')
+		$("[name='setCount']").append(`<option value="${i}">${i}</option>`)
 	}
 };
 
@@ -138,14 +138,14 @@ function paginationToRecord(){
 					var json = JSON.parse(data);
 					var tableHtml = "";
 					$(json).each(function(){
-						tableHtml += '<table border=1>'
-							+ '<tr><th colspan=4>' + this["date"]
-							+ '<a href="' + contextPath + '/toEdit?date=' + this["date"] + '">'
-							+'<input type="button" value="編集"></a></th></tr>'
-							+ '<tr><td>メニュー</td><td>ウェイト</td><td>回数</td><td>セット数</td></tr>'
+						tableHtml += `<table border=1>
+										<tr><th colspan=4>${this["date"]}
+										<a href="${contextPath}/toEdit?date=${this["date"]}">
+										<input type="button" value="編集"></a></th></tr>
+										<tr><td>メニュー</td><td>ウェイト</td><td>回数</td><td>セット数</td></tr>`
 						$(this["trainingRecords"]).each(function(){
-							tableHtml += '<tr><td>' + this["trainingName"] + '</td><td>' + (this["weight"] ? this["weight"] : "")
-								+ '</td><td>' + this["repetition"] + '</td><td>' + this["setCount"] + '</td></tr>'
+							tableHtml += `<tr><td>${this["trainingName"]}</td><td>${this["weight"] ? this["weight"] : ""}</td>
+											<td>${this["repetition"]}</td><td>${this["setCount"]}</td></tr>`
 						})
 						tableHtml += '</table><br>'
 					})
