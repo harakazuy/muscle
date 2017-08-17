@@ -42,4 +42,11 @@ public class TrainingRestController {
 		}
 		return json;
 	}
+	
+// チャート
+	@RequestMapping(value="/chart", method=RequestMethod.POST)
+	public String chart(@RequestParam("id") Integer id, Model model){
+		String json = null;
+		return json;
+	}
 }

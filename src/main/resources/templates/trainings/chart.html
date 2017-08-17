@@ -5,7 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-	<title>record</title>
+	<title>chart</title>
 	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -17,13 +17,8 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-12">
-				<h1>トレーニング履歴</h1>
-				<div th:if="${isSuccess}" class="alert alert-success alert-dismissible">
-				    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				    トレーニングを記録しました。
-  				</div>
-  				<div id="records_content"></div>
-				<ul id="records_pagination" class="pagination-sm"></ul>
+				<h1>チャート</h1>
+  				<canvas id="trainingChart"></canvas>
 			</div>
 		</div>
 	</div>
@@ -37,13 +32,13 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdn.bootcss.com/twbs-pagination/1.4.1/jquery.twbsPagination.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
     
     <script src="js/app-common.js"></script>
     <script src="js/record-form.js"></script>
-    <script src="js/record-pagination.js"></script>
+    <script src="js/record-chart.js"></script>
     <script type="text/javascript">
-    	loadNavbar("#record");
-    	paginationToRecord();
+		loadNavbar("#chart");
 	</script>
 </body>
 </html>

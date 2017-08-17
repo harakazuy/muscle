@@ -60,6 +60,13 @@ public class TrainingController {
 		return packagePath + "edit";
 	}
 	
+	@RequestMapping("/chart")
+	public String chart(Model model){
+		List<TrainingRecordsDate> trainingRecordsDateList = trainingRecordsDateService.findAll();
+		model.addAttribute("trainingRecordsDateList", trainingRecordsDateList);
+		return packagePath + "chart";
+	}
+	
 	@RequestMapping(value="/insert", method=RequestMethod.POST)
 	public String insert(@Validated TrainingRecordForm form, BindingResult result, Model model){
 		trainingService.insertRecordForm(form);
