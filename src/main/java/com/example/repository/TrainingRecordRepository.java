@@ -32,6 +32,7 @@ public class TrainingRecordRepository {
 		trainingRecord.setWeight(rs.getBigDecimal("weight"));
 		trainingRecord.setRepetition(rs.getInt("repetition"));
 		trainingRecord.setSetCount(rs.getInt("set_count"));
+		trainingRecord.setDate(rs.getDate("training_date"));
 		return trainingRecord;
 	};
 	
@@ -41,12 +42,20 @@ public class TrainingRecordRepository {
 	};
 	
 	public List<TrainingRecord> findRecordsByDate(Date date) {
-		String sql = "select a.id, training_id, training_name, weight, repetition, set_count from ";
+		String sql = "select a.id, training_id, training_name, weight, repetition, set_count, training_date from ";
 		sql += recordsTable + " as a join " + trainingsTable + " as b ";
 		sql += "on a.training_id = b.id where training_date = :date";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("date", date);
 		List<TrainingRecord> trainingRecords = template.query(sql, param, rowMapper);
 		return trainingRecords;
+	};
+	
+	public List<TrainingRecord> findByTrainingId(Integer trainingId) {
+		String sql = "select a.id, training_id, training_name, weight, repetition, set_count, training_date from ";
+		sql += recordsTable + " as a join " + trainingsTable + " as b ";
+		sql += "on a.training_id = b.id where training_id = :trainingId order by training_date asc";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("trainingId", trainingId);
+		return template.query(sql, param, rowMapper);
 	};
 	
 	public List<Date> findTrainingDateAll() {

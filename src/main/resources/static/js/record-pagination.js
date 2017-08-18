@@ -3,8 +3,7 @@
  * TODO:レコード取得とページネーションを切り出して共通化
  */
 // ページネーション
-var limit = 3 // 1ページあたりのレコード数
-function paginationToRecord(){
+function paginationToRecord(limit){
 	$.ajax({
 		type: "POST",
 		url: restPath + "/totalPages",
