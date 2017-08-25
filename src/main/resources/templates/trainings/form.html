@@ -1,10 +1,9 @@
-<div id="trainingForm">
+<div id="formRow">
 	<div class="col-sm-12">
 		<input type="hidden" name="id" value="">
 		<span class="col-sm-2">
 			<select name="trainingId" data-validation-error-msg-container="#trainingId-error-dialog">
-				<option th:text="メニュー" value="" selected />
-				<option th:each="training : ${trainingList}" th:text="${training.trainingName}" th:value="${training.id}">
+				<option value="">メニュー</option>
 			</select>
 		</span>
 		<span class="col-sm-2">
@@ -13,13 +12,13 @@
 		</span>
 		<span class="col-sm-2">
 			<select id="repetition" name="repetition" data-validation-error-msg-container="#repetition-error-dialog">
-				<option th:text="--" value="" selected/>
+				<option value="" selected>--</option>
 			</select>
 			&nbsp;回&nbsp;&nbsp;☓
 		</span>
 		<span class="col-sm-2" style="padding:0">
 			<select id="setCount" name="setCount" data-validation-error-msg-container="#setCount-error-dialog">
-				<option th:text="--" value="" selected/>
+				<option value="" selected>--</option>
 			</select>
 			&nbsp;セット
 		</span>

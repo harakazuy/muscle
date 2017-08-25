@@ -2,7 +2,9 @@ package com.example.service;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,8 @@ import com.example.domain.TrainingRecord;
 import com.example.repository.TrainingRecordRepository;
 import com.example.repository.TrainingRepository;
 import com.example.web.TrainingRecordForm;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class TrainingService {
@@ -28,37 +32,22 @@ public class TrainingService {
 	public Training findById(Integer id){
 		return repository.findById(id);
 	}
-		
-	public void insertRecordForm(TrainingRecordForm form){
-		List<TrainingRecord> recordList = this.formToRecordList(form);
-		recordList.forEach(record -> this.insertRecord(record));
-		return;
-	}
 	
-	public void updateRecordForm(TrainingRecordForm form){
+	// TODO:TrainingRecordServiceに移動する
+	// TODO:{レコード:返り値}でエラー判定してるのを綺麗にする
+	public String upsertRecordForm(TrainingRecordForm form){
 		List<TrainingRecord> recordList = this.formToRecordList(form);
-		recordList.forEach(record -> {
-			if(record.getId() != null){
-				this.updateRecord(record);
-			}else{
-				this.insertRecord(record);
-			}
-		});
-		return;
+		return this.upsertRecordList(recordList);
 	}
 	
 	public List<TrainingRecord> formToRecordList(TrainingRecordForm form){
-		List<TrainingRecord> recordList = new ArrayList<TrainingRecord>();
+		List<TrainingRecord> recordList = new ArrayList<>();
 		for(int i = 0; i < form.getTrainingId().length; i++) {
 			TrainingRecord record = new TrainingRecord();
 			record.setDate(form.getDate());
-			if(form.getId().length != 0){
-				record.setId(form.getId()[i]);
-			};
+			record.setId(form.getId().length != 0 ? form.getId()[i] : null);
 			record.setTrainingId(form.getTrainingId()[i]);
-			record.setWeight(
-					form.getWeight().length != 0 ? form.getWeight()[i] : null
-							);
+			record.setWeight(form.getWeight()[i]);
 			record.setRepetition(form.getRepetition()[i]);
 			record.setSetCount(form.getSetCount()[i]);
 			recordList.add(record);
@@ -66,14 +55,28 @@ public class TrainingService {
 		return recordList;
 	}
 	
-	public Integer insertRecord(TrainingRecord record){
-		return recordRepository.insertRecord(record);
+	public String upsertRecordList(List<TrainingRecord> recordList) {
+		List<Map<TrainingRecord, Integer>> resultMapList = new ArrayList<>();
+		recordList.forEach(record -> {
+			Map<TrainingRecord, Integer> resultMap = new LinkedHashMap<>();
+			Integer result = this.upsertRecord(record);
+			resultMap.put(record, result);
+			resultMapList.add(resultMap);
+		});
+		ObjectMapper mapper = new ObjectMapper();
+		String json = null;
+		try{
+			json = mapper.writeValueAsString(resultMapList);
+		}catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return json;
 	}
 	
-	public Integer updateRecord(TrainingRecord record){
-		return recordRepository.updateRecord(record);
+	public Integer upsertRecord(TrainingRecord record) {
+		return recordRepository.upsertRecord(record);
 	}
-	
+
 	public Integer deleteById(Integer id) {
 		return recordRepository.deleteById(id);
 	}

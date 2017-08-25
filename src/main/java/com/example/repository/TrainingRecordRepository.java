@@ -15,8 +15,15 @@ import com.example.domain.TrainingRecord;
 
 @Repository
 public class TrainingRecordRepository {
+	// テーブル
 	private String recordsTable = "training_records";
 	private String trainingsTable = "trainings";
+	// クエリ
+	private String insertSql = "insert into " + recordsTable + " (training_date, training_id, weight, repetition, set_count) "
+								+ "values (:date, :trainingId, :weight, :repetition, :setCount)";
+	private String updateSql = "update " + recordsTable + " set "
+								+ "training_date = :date, training_id = :trainingId, weight = :weight, repetition = :repetition, set_count = :setCount "
+								+ "where id = :id";
 	
 	@Autowired
     private JdbcTemplate jdbcTemplate;
@@ -76,29 +83,20 @@ public class TrainingRecordRepository {
 		return trainingDateList;
 	};
 	
-	public Integer insertRecord(TrainingRecord record) {
-		String sql = "insert into " + recordsTable + " (training_date, training_id, weight, repetition, set_count) ";
-		sql += "values (:date, :trainingId, :weight, :repetition, :setCount)";
+	public Integer upsertRecord(TrainingRecord record) {
+		String sql = record.getId() == null ? insertSql : updateSql;
+		return template.update(sql, generateRecordParam(record));
+	}
+	
+	public SqlParameterSource generateRecordParam(TrainingRecord record) {
 		SqlParameterSource param = new MapSqlParameterSource()
 				.addValue("date", record.getDate())
 				.addValue("trainingId", record.getTrainingId())
 				.addValue("weight", record.getWeight())
 				.addValue("repetition", record.getRepetition())
-				.addValue("setCount", record.getSetCount());
-		return template.update(sql, param);
-	}
-	
-	public Integer updateRecord(TrainingRecord record) {
-		String sql = "update " + recordsTable + " set ";
-		sql += "training_id = :trainingId, weight = :weight, repetition = :repetition, set_count = :setCount ";
-		sql += "where id = :id";
-		SqlParameterSource param = new MapSqlParameterSource()
-				.addValue("trainingId", record.getTrainingId())
-				.addValue("weight", record.getWeight())
-				.addValue("repetition", record.getRepetition())
 				.addValue("setCount", record.getSetCount())
 				.addValue("id", record.getId());
-		return template.update(sql, param);
+		return param;
 	}
 	
 	public Integer deleteById(Integer id) {

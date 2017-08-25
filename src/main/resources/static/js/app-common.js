@@ -2,16 +2,66 @@
  * アプリ全体での共通部分
  */
 
-// ヘッダー、フッター、ナビバー
-$("#header-outer").load("header #header");
-$("#footer-outer").load("footer #footer");
-
-function loadNavbar(pageId){
-	$("#navbar-outer").load("navbar #navbar", function(){
-		$(pageId).attr("class", "active");
-	});
-}
-
 // コンテキストパス
 var contextPath = $("#contextPath").val()
-var restPath = contextPath + "rest"
+var restPath = contextPath + "rest/"
+
+// ヘッダー、フッター、ナビバー、初期表示ページ
+$(function(){
+	getPage('header')
+	getPage('footer')
+	getPage('navbar')
+	getPage('index')
+})
+
+// ページ取得 TODO:共通処理をいい感じに纏める
+function getPage(pageName, upperDefer = $.Deferred()){
+	$.ajax(contextPath + pageName, {
+		dataType: 'html',
+		context:{
+			pageName : pageName
+		}
+	}).then(function(data){
+		var pageHtml = $($.parseHTML(data)).filter('#' + pageName)[0].outerHTML
+		var limit = 3
+		switch(pageName){
+			case "navbar":
+				$("#navbar-outer").empty().append(pageHtml)
+				pageSwitchable()
+				break
+			case "header":
+				$("#header-outer").empty().append(pageHtml)
+				break
+			case "footer":
+				$("#footer-outer").empty().append(pageHtml)
+				break
+			case "index":
+				$('#navbar li').removeAttr("class", "active")
+				$(".index").parent("li").attr("class", "active")
+				$('#page-outer').empty().append(pageHtml)
+				setTrainingForm(pageName)
+				break
+			case "record":
+				$('#navbar li').removeAttr("class", "active")
+				$(".record").parent("li").attr("class", "active")
+				$('#page-outer').empty().append(pageHtml)
+				paginationToRecord(limit, upperDefer)
+				break
+			case "chart":
+				$('#navbar li').removeAttr("class", "active")
+				$(".chart").parent("li").attr("class", "active")
+				$('#page-outer').empty().append(pageHtml)
+				setChart()
+				break
+			default:
+				break
+		}
+	})
+}
+
+// ナビバーのページ切り替え
+function pageSwitchable(){
+	$('#navbar a').click(function(){
+		getPage($(this).attr("class"))
+	})
+}

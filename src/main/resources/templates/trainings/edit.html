@@ -9,77 +9,21 @@
 	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<!-- ヘッダー -->
-	<div id="header-outer"></div>
-<!-- ナビバー -->
-	<div id="navbar-outer"></div>
 	
-	<div class="container">
+<!-- 編集フォーム -->
+	<div id="edit" class="container">
 		<div class="row">
-			<h1>トレーニング履歴編集</h1>
-			<form th:action="@{/update}" method="post" class="col-sm-offset-1">
-				<span>
-					日時<input type="date" name="date" th:value="${date}" data-validation-error-msg-container="#date-error-dialog">
-					<a th:href="@{/deleteByDate(date=${date})}"><input type="button" value="一括削除"></a>
-				</span>
-				<div id="form">
-					<input disabled type="hidden" id="recordSize" th:value="${trainingRecords.size()}">
-					<div class="col-sm-12" th:each="trainingRecord, status : ${trainingRecords}">
-						<input type="hidden" name="id" th:value="${trainingRecord.id}">
-						<span class="col-sm-2">
-							<select name="trainingId" data-validation-error-msg-container="#trainingId-error-dialog">
-								<option th:text="メニュー" value="">
-								<option th:each="training : ${trainingList}" th:text="${training.trainingName}" th:value="${training.id}" th:selected="${trainingRecord.trainingId == training.id}">
-							</select>
-						</span>
-						<span class="col-sm-2">
-							<input type="text" name="weight" th:value="${trainingRecord.weight}" size="8" maxlength="6">
-							&nbsp;kg&nbsp;&nbsp;☓
-						</span>
-						<span class="col-sm-2">
-							<select th:id="'repetition_' + ${status.index}" name="repetition" data-validation-error-msg-container="#repetition-error-dialog">
-								<option th:text="--" value="">
-							</select>
-							<input disabled type="hidden" th:value="${trainingRecord.repetition}">
-							&nbsp;回&nbsp;&nbsp;☓
-						</span>
-						<span class="col-sm-2" style="padding:0">
-							<select th:id="'setCount_' + ${status.index}" name="setCount" data-validation-error-msg-container="#setCount-error-dialog">
-								<option th:text="--" value="">
-							</select>
-							<input disabled type="hidden" th:value="${trainingRecord.setCount}">
-							&nbsp;セット
-						</span>
-						<span class="col-sm-1">
-							<input type="button" class="removeRecord" value="削除">
-						</span>
-					</div>
-				</div>
-				<input type="submit" value="更新">
-				<input type="button" th:onclick="'window.location.href = \'' + @{/toRecord} + '\''" value="キャンセル">
+			<form id="trainingForm" action="javascript:void(0)" method="post" class="col-sm-offset-1">
+				<span>日時<input type="date" name="date" data-validation-error-msg-container="#date-error-dialog"></span>
+				<div id="form"></div>
+				<input type="submit" value="更新する" class="edit">
+				<input type="button" id="cancelEdit" value="キャンセル">
 				<input type="button" id="appendForm" value="+">
 				<input type="button" id="removeForm" value="-">
 			</form>
+			<div id="form-outer" style="display:none"></div>
 		</div>
 	</div>
-	
-	<!-- 追加フォーム -->
-	<div id="form-outer" style="display:none"></div>
-	<!-- コンテキストパス -->
-	<input disabled type="hidden" id="contextPath" th:value="@{/}">
 
-<!-- フッター -->
-	<div id="footer-outer"></div>
-	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
-    
-    <script src="js/app-common.js"></script>
-    <script src="js/record-form.js"></script>
-    <script type="text/javascript">
-    	loadNavbar("#record");
-    	setTrainingForm("edit");
-	</script>
 </body>
 </html>

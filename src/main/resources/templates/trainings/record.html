@@ -9,42 +9,18 @@
 	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<!-- ヘッダー -->
-	<div id="header-outer"></div>
-<!-- ナビバー -->
-	<div id="navbar-outer"></div>
 
-	<div class="container">
+<!-- 履歴 -->
+	<div id="record" class="container">
 		<div class="row">
 			<div class="col-sm-12">
 				<h1>トレーニング履歴</h1>
-				<div th:if="${isSuccess}" class="alert alert-success alert-dismissible">
-				    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				    トレーニングを記録しました。
-  				</div>
+				<div class="alert" style="display:none"></div>
   				<div id="records_content"></div>
 				<ul id="records_pagination" class="pagination-sm"></ul>
 			</div>
 		</div>
 	</div>
 	
-	<!-- コンテキストパス -->
-	<input disabled type="hidden" id="contextPath" th:value="@{/}">
-
-<!-- フッター -->
-	<div id="footer-outer"></div>
-	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <script src="https://cdn.bootcss.com/twbs-pagination/1.4.1/jquery.twbsPagination.min.js"></script>
-    
-    <script src="js/app-common.js"></script>
-    <script src="js/record-form.js"></script>
-    <script src="js/record-pagination.js"></script>
-    <script type="text/javascript">
-    	loadNavbar("#record");
-    	var limit = 3 // 1ページあたりのレコード数
-    	paginationToRecord(limit);
-	</script>
 </body>
 </html>
