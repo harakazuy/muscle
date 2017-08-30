@@ -13,6 +13,7 @@ import com.example.domain.Training;
 import com.example.domain.TrainingRecord;
 import com.example.repository.TrainingRecordRepository;
 import com.example.repository.TrainingRepository;
+import com.example.web.TrainingForm;
 import com.example.web.TrainingRecordForm;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -88,5 +89,29 @@ public class TrainingService {
 	public Integer countTotalPages(Integer limit){
 		Integer dates = recordRepository.countDates();
 		return (dates + limit - 1) / limit;
+	}
+	
+	// TODO:履歴の方と共通化できる？
+	public Integer countTotalMenuPages(Integer limit){
+		Integer count = repository.countAll();
+		return (count + limit - 1) / limit;
+	}
+	
+	public List<Training> findByPage(Integer limit, Integer page) {
+		return repository.findByPage(limit, page);
+	}
+	
+	// 筋トレメニュー更新
+	public String updateTraining(TrainingForm form) {
+		Map<TrainingForm, Integer> resultMap = new LinkedHashMap<>();
+		resultMap.put(form, repository.update(form));
+		ObjectMapper mapper = new ObjectMapper();
+		String json = null;
+		try{
+			json = mapper.writeValueAsString(resultMap);
+		}catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return json;
 	}
 }

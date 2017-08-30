@@ -4,22 +4,22 @@
 
 // バリデーション後にフォーム送信
 function formValidation(){
-	var msg_required="必須入力です。";
+	var msg_required = "必須入力です。"
 	
-	$("[name='date']").attr("data-validation", "required");
-	$("[name='date']").attr("data-validation-error-msg", '日時は' + msg_required);
+	$("[name='date']").attr("data-validation", "required")
+	$("[name='date']").attr("data-validation-error-msg", '日時は' + msg_required)
 	
-	$("[name='trainingId']").attr("data-validation", "required");
-	$("[name='trainingId']").attr("data-validation-error-msg", 'メニューは' + msg_required);
+	$("[name='trainingId']").attr("data-validation", "required")
+	$("[name='trainingId']").attr("data-validation-error-msg", 'メニューは' + msg_required)
 	
-	$("[name='weight']").attr("data-validation", "required");
-	$("[name='weight']").attr("data-validation-error-msg", '重さは' + msg_required);
+	$("[name='weight']").attr("data-validation", "required")
+	$("[name='weight']").attr("data-validation-error-msg", '重さは' + msg_required)
 	
-	$("[name='repetition']").attr("data-validation", "required");
-	$("[name='repetition']").attr("data-validation-error-msg", '回数は' + msg_required);
+	$("[name='repetition']").attr("data-validation", "required")
+	$("[name='repetition']").attr("data-validation-error-msg", '回数は' + msg_required)
 	
-	$("[name='setCount']").attr("data-validation", "required");
-	$("[name='setCount']").attr("data-validation-error-msg", 'セット数は' + msg_required);
+	$("[name='setCount']").attr("data-validation", "required")
+	$("[name='setCount']").attr("data-validation-error-msg", 'セット数は' + msg_required)
 	
 	$.validate({
 		errorMessagePosition : 'top',
@@ -72,6 +72,8 @@ function displayAlert(departure){
 		case "edit": action = "更新"
 			break
 		case "delete": action = "削除"
+			break
+		case "menuEdit": action = "更新" // TODO:履歴とメニュー区別する
 			break
 		default:
 			break

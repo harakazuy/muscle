@@ -88,4 +88,14 @@ public class TrainingController {
 		model.addAttribute("trainingList", trainingList);
 		return packagePath + "form";
 	}
+	
+	@RequestMapping("/trainingMenu")
+	public String trainingMenu(Model model) {
+		return packagePath + "trainingMenu";
+	}
+	
+	@RequestMapping("/menuEdit")
+	public String menuEdit(Model model) {
+		return packagePath + "menuEdit";
+	}
 }

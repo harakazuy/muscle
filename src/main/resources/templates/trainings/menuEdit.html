@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+	<title>menuEdit</title>
+	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+	
+<!-- 筋トレメニュー編集フォーム -->
+	<div id="menuEdit" class="container">
+		<div class="row">
+			<form id="trainingForm" action="javascript:void(0)" method="post" class="col-sm-offset-1">
+				<input type="hidden" name="id">
+				<input type="text" id="trainingName" name="trainingName" data-validation-error-msg-container="#trainingName-error-dialog">
+				<input type="submit" value="更新する" class="menuEdit">
+				<input type="button" id="cancelEdit" value="キャンセル">
+			</form>
+		</div>
+	</div>
+
+</body>
+</html>

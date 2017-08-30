@@ -62,9 +62,16 @@ function getPage(pageName, upperDefer = $.Deferred()){
 				$('#page-outer').empty().append(pageHtml)
 				setChart()
 				break
-			case "loginForm":
+			case "trainingMenu":
+				$('#navbar li').removeAttr("class", "active")
+				$(".trainingMenu").parent("li").attr("class", "active")
 				$('#page-outer').empty().append(pageHtml)
+//				paginationToTraining(10, upperDefer)
+				displayTrainingAjax()
 				break
+//			case "loginForm":
+//				$('#page-outer').empty().append(pageHtml)
+//				break
 			default:
 				break
 		}

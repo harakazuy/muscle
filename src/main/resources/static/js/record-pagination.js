@@ -36,7 +36,7 @@ function paginationToRecord(limit, upperDefer = $.Deferred()){
 	}).fail(function(jqXHR, textStatus, errorThrown){
 		// 通信エラーの場合処理
 	})
-};
+}
 
 // 筋トレ履歴描画
 function displayRecord(data){
