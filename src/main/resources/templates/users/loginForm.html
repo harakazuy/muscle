@@ -5,39 +5,45 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <title>Muscle</title>
+    <title>login</title>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <!-- ヘッダー -->
 	<div id="header-outer"></div>
-	
-<!-- ナビバー -->
-	<div id="navbar-outer"></div>
-	
-<!-- ページ -->
-	<div id="page-outer"></div>
-	
+
+<!-- ログインフォーム -->
+	<div id="login" class="container">
+		<div class="row">
+			<h1>ユーザーログイン</h1>
+			<form id="login" action="javascript:void(0)" method="post" class="col-sm-offset-1">
+				<div>
+					<input type="text" class="" id="username" name="username" placeholder="ユーザー名" autofocus="autofocus" data-validation-error-msg-container="#name-error-dialog">
+				</div>
+				<div>
+					<input type="password" class="" id="password" name="password" placeholder="パスワード" data-validation-error-msg-container="#password-error-dialog">
+				</div>
+				<input type="submit" value="ログイン" class="login btn btn-primary">
+			</form>
+		</div>
+	</div>
+
 <!-- フッター -->
 	<div id="footer-outer"></div>
 	
 <!-- コンテキストパス -->
 	<input disabled type="hidden" id="contextPath" th:value="@{/}">
-
+	
 <!-- JavaScript TODO:位置変える -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
-    <script src="https://cdn.bootcss.com/twbs-pagination/1.4.1/jquery.twbsPagination.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
     
     <script src="js/app-common.js"></script>
-    <script src="js/record-form.js"></script>
-    <script src="js/record-pagination.js"></script>
-    <script src="js/record-chart.js"></script>
     <script src="js/login-form.js"></script>
+    
     <script type="text/javascript">
-    	getTopPage()
-	</script>
+    	getLoginPage()
+    </script>
 </body>
 </html>

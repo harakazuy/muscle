@@ -6,13 +6,22 @@
 var contextPath = $("#contextPath").val()
 var restPath = contextPath + "rest/"
 
-// ヘッダー、フッター、ナビバー、初期表示ページ
-$(function(){
+
+// TODO:ログインをいい感じに非同期にする
+// ヘッダー、フッター、ログインページ
+function getLoginPage(){
+	getPage('header')
+	getPage('footer')
+//	getPage('loginForm')
+	loginValidation()
+}
+//ヘッダー、フッター、ナビバー、初期表示ページ
+function getTopPage(){
 	getPage('header')
 	getPage('footer')
 	getPage('navbar')
 	getPage('index')
-})
+}
 
 // ページ取得 TODO:共通処理をいい感じに纏める
 function getPage(pageName, upperDefer = $.Deferred()){
@@ -52,6 +61,9 @@ function getPage(pageName, upperDefer = $.Deferred()){
 				$(".chart").parent("li").attr("class", "active")
 				$('#page-outer').empty().append(pageHtml)
 				setChart()
+				break
+			case "loginForm":
+				$('#page-outer').empty().append(pageHtml)
 				break
 			default:
 				break

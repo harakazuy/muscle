@@ -14,7 +14,7 @@ import com.example.service.TrainingService;
 import com.example.service.TrainingRecordsDateService;
 
 @Controller
-@RequestMapping("")
+@RequestMapping
 public class TrainingController {
 
 	@Autowired
@@ -30,7 +30,7 @@ public class TrainingController {
 	
 	private String packagePath = "trainings/";
 	
-	@RequestMapping("/")
+	@RequestMapping("/common")
 	public String common(){
 		return packagePath + "common";
 	}
