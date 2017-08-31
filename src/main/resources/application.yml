@@ -10,10 +10,13 @@ spring:
 
   datasource:
     driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://hzbwhsalukodjd:6f5c6c23486ccb87c1213f83b6bb6884f4058278b84488ee765b28b563df5472@ec2-107-22-167-179.compute-1.amazonaws.com:5432/d5toe3vihvto3e
+    username: hzbwhsalukodjd
+    password: 6f5c6c23486ccb87c1213f83b6bb6884f4058278b84488ee765b28b563df5472
 #    url: jdbc:postgresql://localhost:5432/student
-    url: jdbc:postgresql://172.16.0.17:5432/kazuya_hara
-    username: postgres
-    password: postgres
+#    url: jdbc:postgresql://172.16.0.17:5432/kazuya_hara
+#    username: postgres
+#    password: postgres
     
 server:
   contextPath: /Muscle
